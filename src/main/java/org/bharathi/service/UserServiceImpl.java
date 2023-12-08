@@ -2,7 +2,9 @@ package org.bharathi.service;
 
 import java.util.Optional;
 
+import org.bharathi.apiresponse.APIResponse;
 import org.bharathi.dto.LoginRequestDto;
+import org.bharathi.jwtutils.JWTUtils;
 import org.bharathi.repo.IUserDetailRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,8 +24,8 @@ public class UserServiceImpl  implements IUserService{
 	
 	@Autowired
 	private BCryptPasswordEncoder encoder;
-
-     //String storedPassword=null;
+    @Autowired
+    private JWTUtils jwtUtils;
 
 	@Override
 	public String registerUser(org.bharathi.entity.UserDetails user) {
@@ -41,7 +43,7 @@ public UserDetails loadUserByUsername(String username) throws UsernameNotFoundEx
 }
 
 @Override
-public org.bharathi.entity.UserDetails authenticateUser(LoginRequestDto loginrequestdto) {
+public APIResponse authenticateUser(LoginRequestDto loginrequestdto) {
 	
 	BCryptPasswordEncoder bcrypt=new BCryptPasswordEncoder ();
 	
@@ -57,7 +59,7 @@ public org.bharathi.entity.UserDetails authenticateUser(LoginRequestDto loginreq
 	
 				
 		
-		
+	
 		
 
 		    if (userData != null) {
@@ -72,7 +74,13 @@ public org.bharathi.entity.UserDetails authenticateUser(LoginRequestDto loginreq
 		        
 
 				if (bcrypt.matches(loginrequestdto.getPassword(),userData.getPassword())) {
-	                return userData; // Authentication successful; return user details
+					
+					String token=jwtUtils.generateJwt(userData);
+					
+					System.out.println("Token  :"+token);
+	                return new APIResponse(token,userData);
+	                
+	                
 	            }
 		    }
 

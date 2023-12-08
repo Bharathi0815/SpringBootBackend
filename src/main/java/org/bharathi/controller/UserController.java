@@ -1,6 +1,7 @@
 package org.bharathi.controller;
 
 
+import org.bharathi.apiresponse.APIResponse;
 import org.bharathi.dto.LoginRequestDto;
 import org.springframework.web.client.RestTemplate;
 import org.bharathi.entity.UserDetails;
@@ -51,11 +52,11 @@ public class UserController {
 		
 		      try
 		      {
-	         UserDetails response=service.authenticateUser(loginrequestdto);
+	         APIResponse response=service.authenticateUser(loginrequestdto);
 	         if(response!=null)
 	         {
 	         
-		      return new ResponseEntity<UserDetails>(response,HttpStatus.OK);
+		      return new ResponseEntity<APIResponse>(response,HttpStatus.OK);
 				
 	         }
 	         else 
