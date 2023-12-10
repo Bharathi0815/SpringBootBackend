@@ -28,12 +28,12 @@ public class UserController {
 	@PostMapping("/register")
 	public ResponseEntity<String> saveRecord(@RequestBody UserDetails user)
 	{
-    	String name=user.getName();
-    	user.setName(name.replaceAll("\\s+", ""));
+	    	String name=user.getName();
+	    	user.setName(name.replaceAll("\\s+", ""));
 		try
 		{
-		String msg=service.registerUser(user);
-		return new ResponseEntity<String>(msg,HttpStatus.OK);
+			String msg=service.registerUser(user);
+			return new ResponseEntity<String>(msg,HttpStatus.OK);
 		}catch(Exception e)
 		{
 			return new ResponseEntity<String>("problem occured in server",HttpStatus.INTERNAL_SERVER_ERROR)	;	
@@ -45,15 +45,15 @@ public class UserController {
 	public ResponseEntity<?>  signIn(@RequestBody LoginRequestDto loginrequestdto)
 	{
 		
-		      String name=loginrequestdto.getName();
-		      System.out.println(name);
-		       String password=loginrequestdto.getPassword();
-		       System.out.println(password);
+		        String name=loginrequestdto.getName();
+		        System.out.println(name);
+		        String password=loginrequestdto.getPassword();
+		        System.out.println(password);
 		
 		      try
 		      {
-	         APIResponse response=service.authenticateUser(loginrequestdto);
-	         if(response!=null)
+		         APIResponse response=service.authenticateUser(loginrequestdto);
+		         if(response!=null)
 	         {
 	         
 		      return new ResponseEntity<APIResponse>(response,HttpStatus.OK);

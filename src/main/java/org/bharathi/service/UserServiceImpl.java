@@ -49,31 +49,24 @@ public APIResponse authenticateUser(LoginRequestDto loginrequestdto) {
 	
 	String enteredName=loginrequestdto.getName();
 	String enteredPassword=loginrequestdto.getPassword();
-	
-	System.out.println("entered name"+enteredName);
-	System.out.println("entered name"+enteredPassword);
 
-	
 	
 	org.bharathi.entity.UserDetails userData=repo.getUserDataByName(enteredName);
 	
-				
-		
-	
+	String storedName=userData.getName();
 		
 
-		    if (userData != null) {
+		    if (userData != null)
+		    {
+		    	
 		    	
 		    	String storedEncryptedPassword = userData.getPassword();
 		       
 		    	System.out.println("stored password"+storedEncryptedPassword);
 		    	
-		    	
-
-		    //	System.out.println("enteredEncryptedPassword"+enteredEncryptedPassword);
-		        
-
-				if (bcrypt.matches(loginrequestdto.getPassword(),userData.getPassword())) {
+		          
+				if (enteredName.equalsIgnoreCase(storedName)&& bcrypt.matches(loginrequestdto.getPassword(),userData.getPassword()))
+				{
 					
 					String token=jwtUtils.generateJwt(userData);
 					
